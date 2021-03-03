@@ -1,0 +1,30 @@
+version: "3.4"
+services:
+    nopcommerce_web:
+        restart: always
+        build: .
+        container_name: nopcommerce
+        ports:
+            - "80:80"
+        networks:
+            - default
+        environment:
+            - VIRTUAL_HOST=demoshop.adisolutions.com.co
+            - LETSENCRYPT_HOST=demoshop.adisolutions.com.co
+            - LETSENCRYPT_EMAIL=andres.guerrero@adisolutions.com.co
+        depends_on:
+            - nopcommerce_database
+    nopcommerce_database:
+        image: "microsoft/mssql-server-linux"
+        container_name: nopcommerce_mssql_server
+        environment:
+            SA_PASSWORD: "Dna9201,,,"
+            ACCEPT_EULA: "Y"
+            MSSQL_PID: "Express"
+volumes:
+    nopcommerce_data:
+    
+networks:
+  default:
+    external:
+      name: nginx-ssl_default
